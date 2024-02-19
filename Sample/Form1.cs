@@ -1,11 +1,11 @@
 ﻿//*******************************************************************************
-//This program connects to the instrument and sends and receives commands.
-//Enter the command and click the [Transmit and Receive] button to send it.
-//If the command has a response (command contains "?"), the response is displayed in the textbox.
-//
 //System requirements (software)
-//   Microsoft Visual Studio Professional 2017
-//   Microsoft.NET Framework 4.7
+//  Microsoft Visual Studio Professional 2017
+//  Microsoft.NET Framework 4.7
+//
+//This program interfaces with the HIOKI Battery Hi-Tester and allows the user 
+//to see real-time measurements, record and save measurements, and input individual 
+//commands into the device.
 //*******************************************************************************
 
 using System;
