@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{A9E597CD-0842-4CEC-BCF8-6AE36B6248A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIOKI_HiTester", "Sample\HIOKI_HiTester.csproj", "{A9E597CD-0842-4CEC-BCF8-6AE36B6248A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

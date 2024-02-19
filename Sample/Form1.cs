@@ -17,198 +17,406 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
-namespace Sample
+namespace Interface
 {
     public partial class Form1 : Form
     {
         private LAN comm;
 
+        // Threshold for no measurements
+        private const double NoMeasurementThreshold = 1_000_000_000;
+
+        // Counter for interval of measurements
+        private int counter = 0;
+
+        // Flag for automatic recording
+        private bool autoNext = false;
+
+        // Saved last res and vol values to prevent repeated log entries and saving to measurements
+        private double prevResistance = 0;
+        private double prevVoltage = 0;
+
+        // Storing measurement data
+        private List<Measurement> measurements = new List<Measurement> ();
+
         // Process for form load
         public Form1()
         {
             InitializeComponent();
-            // Process for Enable/Disable on the buttons
-            Button1.Enabled = true;
-            Button2.Enabled = false;
-            Button3.Enabled = false;
-            TextBox1.Enabled = true;
-            TextBox2.Enabled = true;
-            TextBox3.Enabled = false;
-            TextBox4.Enabled = false;
-            TextBox5.ReadOnly = true;
+            // Interface componenets
+            connect.Enabled = true;
+            disconnect.Enabled = false;
+            ipTextbox.Enabled = true;
+            portTextbox.Enabled = true;
 
-            button8.Enabled = false;
-            button7.Enabled = false;
-            button5.Enabled = false;
-            button6.Enabled = false;
-            button9.Enabled = false;
+            // Commands components
+            transmitAndRecieve.Enabled = false;
+            commandTextbox.Enabled = false;
+            timeoutTextbox.Enabled = false;
+            consoleTextbox.ReadOnly = true;
 
-            radioButton1.Enabled = false;
-            radioButton2.Enabled = false;
-            radioButton3.Enabled = false;
+            // Record components
+            recordLog.ReadOnly = true;
+            startRecord.Enabled = false;
+            stopRecord.Enabled = false;
+            manualNext.Enabled = false;
+            manualRadioButton.Enabled = false;
+            autoRadioButton.Enabled = false;
+            timeIntervalRadioButton.Enabled = false;
+            secIntervalNumeric.Enabled = false;
 
-            numericUpDown1.Enabled = false;
-            numericUpDown2.Enabled = false;
+            // Measurements component
+            startMeasurement.Enabled = false;
+            stopMeasurement.Enabled = false;
 
+            // Measurement timer parameters
             fetchTimer.Interval = 200;
             fetchTimer.Tick += new EventHandler(FetchTimer_Tick);
+
+            // Record timer parameters
+            manualRecordTimer.Interval = 500;
+            autoRecordTimer.Interval = 500;
+
+            // Save CSV default parameters
+            saveFileDialog1.Title = "Save CSV File";
+            saveFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+            saveFileDialog1.DefaultExt = "csv";
+            saveFileDialog1.FileName = "Measurements";
         }
 
         // Events when "Connect" button is clicked
-        private void Button1_Click(object sender, EventArgs e)
+        private void Connect_Click(object sender, EventArgs e)
         {
             // Create a LAN object
             comm = new LAN();
 
             // Connect
-            if (comm.OpenInterface(TextBox1.Text, TextBox2.Text) == false)
+            if (comm.OpenInterface(ipTextbox.Text, portTextbox.Text) == false)
             {
                 return;
             }
 
-            // Process for Enable/Disable on the buttons
-            Button1.Enabled = false;
-            Button2.Enabled = true;
-            Button3.Enabled = true;
-            TextBox1.Enabled = false;
-            TextBox2.Enabled = false;
-            TextBox3.Enabled = true;
-            TextBox4.Enabled = true;
-
-            button8.Enabled = true;
+            // Enable/disable buttons when connected
+            connect.Enabled = false;
+            disconnect.Enabled = true;
+            transmitAndRecieve.Enabled = true;
+            ipTextbox.Enabled = false;
+            portTextbox.Enabled = false;
+            commandTextbox.Enabled = true;
+            timeoutTextbox.Enabled = true;
+            startMeasurement.Enabled = true;
+            manualRadioButton.Enabled = true;
+            autoRadioButton.Enabled = true;
+            timeIntervalRadioButton.Enabled = true;
         }
 
         // Events when "Disconnect" button is clicked
-        private void Button2_Click(object sender, EventArgs e)
+        private void Disconnect_Click(object sender, EventArgs e)
         {
             // Disconnect
             comm.CloseInterface();
 
-            // Process for Enable/Disable on the buttons
-            Button1.Enabled = true;
-            Button2.Enabled = false;
-            Button3.Enabled = false;
-            TextBox1.Enabled = true;
-            TextBox2.Enabled = true;
-            TextBox3.Enabled = false;
-            TextBox4.Enabled = false;
+            // Enable/disable buttons when disconnected
+            connect.Enabled = true;
+            disconnect.Enabled = false;
+            transmitAndRecieve.Enabled = false;
+            ipTextbox.Enabled = true;
+            portTextbox.Enabled = true;
+            commandTextbox.Enabled = false;
+            timeoutTextbox.Enabled = false;
+            startMeasurement.Enabled = false;
+            stopMeasurement.Enabled = false;
+            startRecord.Enabled = false;
+            stopRecord.Enabled = false;
+            manualNext.Enabled = false;
+            manualRadioButton.Enabled = false;
+            autoRadioButton.Enabled = false;
+            timeIntervalRadioButton.Enabled = false;
+            secIntervalNumeric.Enabled = false;
         }
 
         // Events when "Transmit and Receive" button is clicked
-        private void Button3_Click(object sender, EventArgs e)
+        private void TransmitAndRecieve_Click(object sender, EventArgs e)
         {
-            Button3.Enabled = false;
+            transmitAndRecieve.Enabled = false;
 
-            TextBox5.AppendText("<< " + TextBox3.Text + "\r\n");                        // Output logs of transmitting data
-            comm.SendQueryMsg(TextBox3.Text, Convert.ToInt64(TextBox4.Text) * 1000);    // Transmit and receive commands
-            if (TextBox3.Text.Contains("?") == true)                                    // If the command contains "?"
+            consoleTextbox.AppendText("<< " + commandTextbox.Text + "\r\n");                        // Output logs of transmitting data
+            comm.SendQueryMsg(commandTextbox.Text, Convert.ToInt64(timeoutTextbox.Text) * 1000);    // Transmit and receive commands
+            if (commandTextbox.Text.Contains("?") == true)                                    // If the command contains "?"
             {
-                TextBox5.AppendText(">> " + comm.MsgBuf + "\r\n");                      //Output logs of receiving data
+                consoleTextbox.AppendText(">> " + comm.MsgBuf + "\r\n");                      //Output logs of receiving data
             }
 
-            Button3.Enabled = true;
+            transmitAndRecieve.Enabled = true;
         }
 
         // Events when "Clear" button is clicked
-        private void Button4_Click(object sender, EventArgs e)
+        private void Clear_Click(object sender, EventArgs e)
         {
             // Clear the textbox
-            TextBox5.Clear();
+            consoleTextbox.Clear();
         }
 
         // Event when measurement "start" button is clicked
-        private void button8_Click(object sender, EventArgs e)
+        private void StartMeasurement_Click(object sender, EventArgs e)
         {
-            button8.Enabled = false;
-            button7.Enabled = true;
+            startMeasurement.Enabled = false;
+            stopMeasurement.Enabled = true;
+
             fetchTimer.Start();
         }
 
         // Event when measurement "stop" button is clicked
-        private void button7_Click(object sender, EventArgs e)
+        private void StopMeasurement_Click(object sender, EventArgs e)
         {
             fetchTimer.Stop();
-            button8.Enabled = true;
-            button7.Enabled = false;
+
+            startMeasurement.Enabled = true;
+            stopMeasurement.Enabled = false;
+
+            resistance_measurement.Text = "_.____";
+            voltage_measurement.Text = "_.____";
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        // Event when "Manual" Radio Button is clicked
+        private void ManualRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-
+            startRecord.Enabled = true;
+            secIntervalNumeric.Enabled = false;
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        // Event when "Automatic" Radio Button is clicked
+        private void AutoRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-
+            startRecord.Enabled = true;
+            secIntervalNumeric.Enabled = false;
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        // Event when "Interval" Radio Button is clicked
+        private void TimeIntervalRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-
+            startRecord.Enabled = true;
+            secIntervalNumeric.Enabled = true;
         }
 
-        private void label10_Click(object sender, EventArgs e)
+        // Event when "Start" record is clicked
+        private void StartRecord_Click(object sender, EventArgs e)
         {
+            // Enable/disable buttons when start recording
+            stopRecord.Enabled = true;
+            startRecord.Enabled = false;
+            manualRadioButton.Enabled = false;
+            autoRadioButton.Enabled = false;
+            timeIntervalRadioButton.Enabled = false;
+            secIntervalNumeric.Enabled = false;
+            disconnect.Enabled = false;
+            transmitAndRecieve.Enabled = false;
+            commandTextbox.Enabled = false;
+            timeoutTextbox.Enabled = false;
 
+            // Reset measurement var
+            counter = 0;
+            prevResistance = NoMeasurementThreshold;
+            prevVoltage = NoMeasurementThreshold;
+
+            // Clear measurements object
+            measurements.Clear();
+            
+            // Output first measurement
+            recordLog.AppendText($"New Measurement No. {counter}\r\n");
+            
+            if (manualRadioButton.Checked)
+            {
+                manualNext.Enabled = true;
+                manualRecordTimer.Start();
+                Console.Beep(800, 900);
+            }
+            else if (autoRadioButton.Checked)
+            {
+                autoNext = false;
+                autoRecordTimer.Start();
+                Console.Beep(800, 900);
+            }
+            else if (timeIntervalRadioButton.Checked)
+            {
+                intervalRecordTimer.Interval = (int)Math.Floor(secIntervalNumeric.Value * 1000);
+                manualRecordTimer.Start();
+                intervalRecordTimer.Start();
+                Console.Beep(800, 900);
+            }
         }
 
-        private void label12_Click(object sender, EventArgs e)
+        // Event when "Stop" record is clicked
+        private void StopRecord_Click(object sender, EventArgs e)
         {
+            // Enable/disable components when stop recording
+            startRecord.Enabled = true;
+            stopRecord.Enabled = false;
+            manualNext.Enabled = false;
+            manualRadioButton.Enabled = true;
+            autoRadioButton.Enabled = true;
+            timeIntervalRadioButton.Enabled = true; 
+            disconnect.Enabled = true;
+            transmitAndRecieve.Enabled = true;
+            commandTextbox.Enabled = true;
+            timeoutTextbox.Enabled = true;
 
+            // Add last measurement to measurements
+            measurements.Add(new Measurement(counter, prevVoltage, prevResistance));
+
+            // Stop various timers
+            if (manualRadioButton.Checked)
+            {
+                manualRecordTimer.Stop();
+            }
+            else if (autoRadioButton.Checked)
+            {
+                autoRecordTimer.Stop();
+            }
+            else if (timeIntervalRadioButton.Checked)
+            {
+                intervalRecordTimer.Stop();
+                secIntervalNumeric.Enabled = true;
+            }
+
+            // Save to CSV
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                StringBuilder csv = new StringBuilder();
+
+                csv.AppendLine("Measurement No.,Resistance,Voltage");
+
+                foreach (var measurement in measurements)
+                {
+                    csv.AppendLine($"{measurement.Counter},{measurement.Resistance},{measurement.Voltage}");
+                }
+
+                File.WriteAllText(saveFileDialog1.FileName, csv.ToString());
+            }
         }
 
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label10_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        // Timer for taking continuous measurements
         private void FetchTimer_Tick(object sender, EventArgs e)
         {
-            // Since this will execute the command repeatedly, ensure it does not disrupt user interface responsiveness
             comm.SendQueryMsg(":FETC?", 200);
 
+            // Convert msg to doubles and handle weird '-' output from device
             string[] parts = comm.MsgBuf.Split(',');
-            double resistance = double.Parse(parts[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
-            double voltage = double.Parse(parts[1].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+            string resistanceStr = parts[0].Trim().Replace("- ", "-");
+            double resistance = double.Parse(resistanceStr, System.Globalization.CultureInfo.InvariantCulture);
+            string voltageStr = parts[1].Trim().Replace("- ", "-");
+            double voltage = double.Parse(voltageStr, System.Globalization.CultureInfo.InvariantCulture);
 
-            string resStr = resistance.ToString("E2", System.Globalization.CultureInfo.InvariantCulture);
-            string volStr = voltage.ToString("E2", System.Globalization.CultureInfo.InvariantCulture);
+            // Format resistance and voltage
+            string resStr = Util.ConvertToMetricNotation(resistance) + "Ω";
+            string volStr = Util.ConvertToMetricNotation(voltage) + "V";
 
-            // Assuming comm.MsgBuf contains the fetched result after executing SendQueryMsg
-            label8.Invoke(new Action(() => label8.Text = resStr));
-            label9.Invoke(new Action(() => label9.Text = volStr));
+            if (resistance >= NoMeasurementThreshold)
+            {
+                resStr = "No Measurement";
+            }
+
+            if (voltage >= NoMeasurementThreshold)
+            {
+                volStr = "No Measurement";
+            }
+
+            resistance_measurement.Invoke(new Action(() => resistance_measurement.Text = resStr));
+            voltage_measurement.Invoke(new Action(() => voltage_measurement.Text = volStr));
         }
 
+        // Timer for manual and interval measurements
+        private void ManualRecordTimer_Tick(object sender, EventArgs e)
+        {
+            comm.SendQueryMsg(":FETC?", 200);
+
+            // Convert msg to doubles and handle weird '-' output from device
+            string[] parts = comm.MsgBuf.Split(',');
+            string resistanceStr = parts[0].Trim().Replace("- ", "-");
+            double resistance = double.Parse(resistanceStr, System.Globalization.CultureInfo.InvariantCulture);
+            string voltageStr = parts[1].Trim().Replace("- ", "-");
+            double voltage = double.Parse(voltageStr, System.Globalization.CultureInfo.InvariantCulture);
+
+            // Check for valid measurements and none repeating measurements
+            if (resistance < NoMeasurementThreshold && voltage < NoMeasurementThreshold && resistance != prevResistance && voltage != prevVoltage)
+            {
+                recordLog.AppendText($"res = {resistance}, vol = {voltage}\r\n");
+                
+                prevResistance = resistance;
+                prevVoltage = voltage;
+
+                Console.Beep();
+            }
+        }
+
+        // Timer for automatic measurements
+        private void AutoRecordTimer_Tick(object sender, EventArgs e)
+        {
+            comm.SendQueryMsg(":FETC?", 200);
+
+            // Convert msg to doubles and handle weird '-' output from device
+            string[] parts = comm.MsgBuf.Split(',');
+            string resistanceStr = parts[0].Trim().Replace("- ", "-");
+            double resistance = double.Parse(resistanceStr, System.Globalization.CultureInfo.InvariantCulture);
+            string voltageStr = parts[1].Trim().Replace("- ", "-");
+            double voltage = double.Parse(voltageStr, System.Globalization.CultureInfo.InvariantCulture);
+
+            // Check if counter should be incremented for a new measurement
+            if (autoNext && (resistance >= NoMeasurementThreshold || voltage >= NoMeasurementThreshold))
+            {
+                measurements.Add(new Measurement(counter, prevVoltage, prevResistance));
+                recordLog.AppendText($"\r\nNew Measurement No. {++counter}\r\n");
+
+                autoNext = false;
+                prevResistance = NoMeasurementThreshold;
+                prevVoltage = NoMeasurementThreshold;
+
+                Console.Beep(800, 900);
+            }
+
+            // Check for valid measurements, none repeating measurements and reset auto flag
+            if (resistance < NoMeasurementThreshold && voltage < NoMeasurementThreshold && resistance != prevResistance && voltage != prevVoltage)
+            {
+                recordLog.AppendText($"res = {resistance}, vol = {voltage}\r\n");
+
+                autoNext = true;
+                prevResistance = resistance;
+                prevVoltage = voltage;
+
+                Console.Beep();
+            }
+        }
+
+        // Timer for incrementing counter/interval based on timer
+        private void IntervalRecordTimer_Tick(object sender, EventArgs e)
+        {
+            measurements.Add(new Measurement(counter, prevVoltage, prevResistance));
+            recordLog.AppendText($"\r\nNew Measurement No. {++counter}\r\n");
+
+            Console.Beep(800, 900);
+
+            prevResistance = NoMeasurementThreshold;
+            prevVoltage = NoMeasurementThreshold;
+        }
+
+        // Event when "Clear" record is clicked
+        private void clearRecord_Click(object sender, EventArgs e)
+        {
+            recordLog.Clear();
+        }
+
+        // Event when "Next" is clicked for manual recording
+        private void manualNext_Click(object sender, EventArgs e)
+        {
+            measurements.Add(new Measurement(counter, prevVoltage, prevResistance));
+            recordLog.AppendText($"\r\nNew Measurement No. {++counter}\r\n");
+
+            Console.Beep(800, 900);
+
+            prevResistance = NoMeasurementThreshold;
+            prevVoltage = NoMeasurementThreshold;
+        }
     }
 }

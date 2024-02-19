@@ -1,4 +1,4 @@
-﻿namespace Sample
+﻿namespace Interface
 {
     partial class Form1
     {
@@ -30,49 +30,50 @@
         {
             this.components = new System.ComponentModel.Container();
             this.Label6 = new System.Windows.Forms.Label();
-            this.TextBox4 = new System.Windows.Forms.TextBox();
+            this.timeoutTextbox = new System.Windows.Forms.TextBox();
             this.Label5 = new System.Windows.Forms.Label();
-            this.TextBox2 = new System.Windows.Forms.TextBox();
+            this.portTextbox = new System.Windows.Forms.TextBox();
             this.Label4 = new System.Windows.Forms.Label();
-            this.Button4 = new System.Windows.Forms.Button();
+            this.clear = new System.Windows.Forms.Button();
             this.Label2 = new System.Windows.Forms.Label();
-            this.Button3 = new System.Windows.Forms.Button();
-            this.Button2 = new System.Windows.Forms.Button();
-            this.Button1 = new System.Windows.Forms.Button();
+            this.transmitAndRecieve = new System.Windows.Forms.Button();
+            this.disconnect = new System.Windows.Forms.Button();
+            this.connect = new System.Windows.Forms.Button();
             this.Label1 = new System.Windows.Forms.Label();
-            this.TextBox5 = new System.Windows.Forms.TextBox();
-            this.TextBox3 = new System.Windows.Forms.TextBox();
-            this.TextBox1 = new System.Windows.Forms.TextBox();
+            this.consoleTextbox = new System.Windows.Forms.TextBox();
+            this.commandTextbox = new System.Windows.Forms.TextBox();
+            this.ipTextbox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.clearRecord = new System.Windows.Forms.Button();
+            this.recordLog = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.button9 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
+            this.manualNext = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.secIntervalNumeric = new System.Windows.Forms.NumericUpDown();
+            this.timeIntervalRadioButton = new System.Windows.Forms.RadioButton();
+            this.autoRadioButton = new System.Windows.Forms.RadioButton();
+            this.manualRadioButton = new System.Windows.Forms.RadioButton();
+            this.stopRecord = new System.Windows.Forms.Button();
+            this.startRecord = new System.Windows.Forms.Button();
+            this.stopMeasurement = new System.Windows.Forms.Button();
+            this.startMeasurement = new System.Windows.Forms.Button();
+            this.voltage_measurement = new System.Windows.Forms.Label();
+            this.resistance_measurement = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.resistanceLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.fetchTimer = new System.Windows.Forms.Timer(this.components);
+            this.manualRecordTimer = new System.Windows.Forms.Timer(this.components);
+            this.autoRecordTimer = new System.Windows.Forms.Timer(this.components);
+            this.intervalRecordTimer = new System.Windows.Forms.Timer(this.components);
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.secIntervalNumeric)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,15 +86,14 @@
             this.Label6.TabIndex = 50;
             this.Label6.Text = "sec";
             // 
-            // TextBox4
+            // timeoutTextbox
             // 
-            this.TextBox4.Location = new System.Drawing.Point(82, 54);
-            this.TextBox4.Name = "TextBox4";
-            this.TextBox4.Size = new System.Drawing.Size(48, 20);
-            this.TextBox4.TabIndex = 49;
-            this.TextBox4.Text = "1";
-            this.TextBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.TextBox4.TextChanged += new System.EventHandler(this.TextBox4_TextChanged);
+            this.timeoutTextbox.Location = new System.Drawing.Point(82, 54);
+            this.timeoutTextbox.Name = "timeoutTextbox";
+            this.timeoutTextbox.Size = new System.Drawing.Size(48, 20);
+            this.timeoutTextbox.TabIndex = 49;
+            this.timeoutTextbox.Text = "1";
+            this.timeoutTextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // Label5
             // 
@@ -104,15 +104,15 @@
             this.Label5.TabIndex = 48;
             this.Label5.Text = "Timeout";
             // 
-            // TextBox2
+            // portTextbox
             // 
-            this.TextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.TextBox2.Location = new System.Drawing.Point(102, 55);
-            this.TextBox2.Name = "TextBox2";
-            this.TextBox2.Size = new System.Drawing.Size(62, 23);
-            this.TextBox2.TabIndex = 47;
-            this.TextBox2.Text = "23";
-            this.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.portTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.portTextbox.Location = new System.Drawing.Point(102, 55);
+            this.portTextbox.Name = "portTextbox";
+            this.portTextbox.Size = new System.Drawing.Size(62, 23);
+            this.portTextbox.TabIndex = 47;
+            this.portTextbox.Text = "23";
+            this.portTextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // Label4
             // 
@@ -123,15 +123,15 @@
             this.Label4.TabIndex = 51;
             this.Label4.Text = "Commands";
             // 
-            // Button4
+            // clear
             // 
-            this.Button4.Location = new System.Drawing.Point(404, 242);
-            this.Button4.Name = "Button4";
-            this.Button4.Size = new System.Drawing.Size(73, 32);
-            this.Button4.TabIndex = 57;
-            this.Button4.Text = "Clear";
-            this.Button4.UseVisualStyleBackColor = true;
-            this.Button4.Click += new System.EventHandler(this.Button4_Click);
+            this.clear.Location = new System.Drawing.Point(404, 229);
+            this.clear.Name = "clear";
+            this.clear.Size = new System.Drawing.Size(73, 32);
+            this.clear.TabIndex = 57;
+            this.clear.Text = "Clear";
+            this.clear.UseVisualStyleBackColor = true;
+            this.clear.Click += new System.EventHandler(this.Clear_Click);
             // 
             // Label2
             // 
@@ -143,35 +143,35 @@
             this.Label2.TabIndex = 46;
             this.Label2.Text = "Port";
             // 
-            // Button3
+            // transmitAndRecieve
             // 
-            this.Button3.Location = new System.Drawing.Point(404, 83);
-            this.Button3.Name = "Button3";
-            this.Button3.Size = new System.Drawing.Size(73, 153);
-            this.Button3.TabIndex = 56;
-            this.Button3.Text = "Transmit and Receive";
-            this.Button3.UseVisualStyleBackColor = true;
-            this.Button3.Click += new System.EventHandler(this.Button3_Click);
+            this.transmitAndRecieve.Location = new System.Drawing.Point(404, 83);
+            this.transmitAndRecieve.Name = "transmitAndRecieve";
+            this.transmitAndRecieve.Size = new System.Drawing.Size(73, 140);
+            this.transmitAndRecieve.TabIndex = 56;
+            this.transmitAndRecieve.Text = "Transmit and Receive";
+            this.transmitAndRecieve.UseVisualStyleBackColor = true;
+            this.transmitAndRecieve.Click += new System.EventHandler(this.TransmitAndRecieve_Click);
             // 
-            // Button2
+            // disconnect
             // 
-            this.Button2.Location = new System.Drawing.Point(398, 55);
-            this.Button2.Name = "Button2";
-            this.Button2.Size = new System.Drawing.Size(73, 32);
-            this.Button2.TabIndex = 55;
-            this.Button2.Text = "Disconnect";
-            this.Button2.UseVisualStyleBackColor = true;
-            this.Button2.Click += new System.EventHandler(this.Button2_Click);
+            this.disconnect.Location = new System.Drawing.Point(398, 55);
+            this.disconnect.Name = "disconnect";
+            this.disconnect.Size = new System.Drawing.Size(73, 32);
+            this.disconnect.TabIndex = 55;
+            this.disconnect.Text = "Disconnect";
+            this.disconnect.UseVisualStyleBackColor = true;
+            this.disconnect.Click += new System.EventHandler(this.Disconnect_Click);
             // 
-            // Button1
+            // connect
             // 
-            this.Button1.Location = new System.Drawing.Point(398, 17);
-            this.Button1.Name = "Button1";
-            this.Button1.Size = new System.Drawing.Size(73, 32);
-            this.Button1.TabIndex = 54;
-            this.Button1.Text = "Connect";
-            this.Button1.UseVisualStyleBackColor = true;
-            this.Button1.Click += new System.EventHandler(this.Button1_Click);
+            this.connect.Location = new System.Drawing.Point(398, 17);
+            this.connect.Name = "connect";
+            this.connect.Size = new System.Drawing.Size(73, 32);
+            this.connect.TabIndex = 54;
+            this.connect.Text = "Connect";
+            this.connect.UseVisualStyleBackColor = true;
+            this.connect.Click += new System.EventHandler(this.Connect_Click);
             // 
             // Label1
             // 
@@ -183,135 +183,122 @@
             this.Label1.TabIndex = 44;
             this.Label1.Text = "IP address";
             // 
-            // TextBox5
+            // consoleTextbox
             // 
-            this.TextBox5.Location = new System.Drawing.Point(6, 83);
-            this.TextBox5.Multiline = true;
-            this.TextBox5.Name = "TextBox5";
-            this.TextBox5.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBox5.Size = new System.Drawing.Size(392, 191);
-            this.TextBox5.TabIndex = 53;
-            this.TextBox5.WordWrap = false;
+            this.consoleTextbox.Location = new System.Drawing.Point(6, 83);
+            this.consoleTextbox.Multiline = true;
+            this.consoleTextbox.Name = "consoleTextbox";
+            this.consoleTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.consoleTextbox.Size = new System.Drawing.Size(392, 178);
+            this.consoleTextbox.TabIndex = 53;
+            this.consoleTextbox.WordWrap = false;
             // 
-            // TextBox3
+            // commandTextbox
             // 
-            this.TextBox3.Location = new System.Drawing.Point(82, 28);
-            this.TextBox3.Name = "TextBox3";
-            this.TextBox3.Size = new System.Drawing.Size(234, 20);
-            this.TextBox3.TabIndex = 52;
-            this.TextBox3.Text = "*IDN?";
+            this.commandTextbox.Location = new System.Drawing.Point(82, 28);
+            this.commandTextbox.Name = "commandTextbox";
+            this.commandTextbox.Size = new System.Drawing.Size(234, 20);
+            this.commandTextbox.TabIndex = 52;
+            this.commandTextbox.Text = "*IDN?";
             // 
-            // TextBox1
+            // ipTextbox
             // 
-            this.TextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.TextBox1.Location = new System.Drawing.Point(102, 24);
-            this.TextBox1.Name = "TextBox1";
-            this.TextBox1.Size = new System.Drawing.Size(122, 23);
-            this.TextBox1.TabIndex = 45;
-            this.TextBox1.Text = "192.168.1.1";
+            this.ipTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.ipTextbox.Location = new System.Drawing.Point(102, 24);
+            this.ipTextbox.Name = "ipTextbox";
+            this.ipTextbox.Size = new System.Drawing.Size(122, 23);
+            this.ipTextbox.TabIndex = 45;
+            this.ipTextbox.Text = "192.168.1.1";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.TextBox2);
+            this.groupBox1.Controls.Add(this.portTextbox);
             this.groupBox1.Controls.Add(this.Label2);
-            this.groupBox1.Controls.Add(this.Button2);
-            this.groupBox1.Controls.Add(this.Button1);
+            this.groupBox1.Controls.Add(this.disconnect);
+            this.groupBox1.Controls.Add(this.connect);
             this.groupBox1.Controls.Add(this.Label1);
-            this.groupBox1.Controls.Add(this.TextBox1);
+            this.groupBox1.Controls.Add(this.ipTextbox);
             this.groupBox1.Location = new System.Drawing.Point(12, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(483, 99);
             this.groupBox1.TabIndex = 58;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Interface";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.groupBox4);
-            this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Controls.Add(this.button8);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.stopMeasurement);
+            this.groupBox2.Controls.Add(this.startMeasurement);
+            this.groupBox2.Controls.Add(this.voltage_measurement);
+            this.groupBox2.Controls.Add(this.resistance_measurement);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.resistanceLabel);
             this.groupBox2.Location = new System.Drawing.Point(12, 111);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(483, 247);
+            this.groupBox2.Size = new System.Drawing.Size(483, 323);
             this.groupBox2.TabIndex = 59;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Measurements";
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.clearRecord);
+            this.groupBox4.Controls.Add(this.recordLog);
             this.groupBox4.Controls.Add(this.label12);
-            this.groupBox4.Controls.Add(this.button9);
-            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.manualNext);
             this.groupBox4.Controls.Add(this.label10);
-            this.groupBox4.Controls.Add(this.numericUpDown2);
-            this.groupBox4.Controls.Add(this.numericUpDown1);
-            this.groupBox4.Controls.Add(this.radioButton3);
-            this.groupBox4.Controls.Add(this.radioButton2);
-            this.groupBox4.Controls.Add(this.radioButton1);
-            this.groupBox4.Controls.Add(this.button6);
-            this.groupBox4.Controls.Add(this.button5);
+            this.groupBox4.Controls.Add(this.secIntervalNumeric);
+            this.groupBox4.Controls.Add(this.timeIntervalRadioButton);
+            this.groupBox4.Controls.Add(this.autoRadioButton);
+            this.groupBox4.Controls.Add(this.manualRadioButton);
+            this.groupBox4.Controls.Add(this.stopRecord);
+            this.groupBox4.Controls.Add(this.startRecord);
             this.groupBox4.Location = new System.Drawing.Point(6, 92);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(471, 149);
+            this.groupBox4.Size = new System.Drawing.Size(471, 225);
             this.groupBox4.TabIndex = 61;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Record";
             // 
-            // label14
+            // clearRecord
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label14.Location = new System.Drawing.Point(326, 18);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(18, 20);
-            this.label14.TabIndex = 68;
-            this.label14.Text = "0";
+            this.clearRecord.Location = new System.Drawing.Point(392, 187);
+            this.clearRecord.Name = "clearRecord";
+            this.clearRecord.Size = new System.Drawing.Size(73, 32);
+            this.clearRecord.TabIndex = 58;
+            this.clearRecord.Text = "Clear";
+            this.clearRecord.UseVisualStyleBackColor = true;
+            this.clearRecord.Click += new System.EventHandler(this.clearRecord_Click);
             // 
-            // label13
+            // recordLog
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label13.Location = new System.Drawing.Point(199, 18);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(125, 20);
-            this.label13.TabIndex = 67;
-            this.label13.Text = "Interval Number:";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
+            this.recordLog.Location = new System.Drawing.Point(151, 13);
+            this.recordLog.Multiline = true;
+            this.recordLog.Name = "recordLog";
+            this.recordLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.recordLog.Size = new System.Drawing.Size(235, 206);
+            this.recordLog.TabIndex = 67;
+            this.recordLog.WordWrap = false;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(389, 98);
+            this.label12.Location = new System.Drawing.Point(389, 88);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(45, 13);
             this.label12.TabIndex = 66;
             this.label12.Text = "Manual:";
-            this.label12.Click += new System.EventHandler(this.label12_Click_2);
             // 
-            // button9
+            // manualNext
             // 
-            this.button9.Location = new System.Drawing.Point(392, 111);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(73, 32);
-            this.button9.TabIndex = 65;
-            this.button9.Text = "Next";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(82, 120);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(46, 13);
-            this.label11.TabIndex = 63;
-            this.label11.Text = "intervals";
+            this.manualNext.Location = new System.Drawing.Point(392, 101);
+            this.manualNext.Name = "manualNext";
+            this.manualNext.Size = new System.Drawing.Size(73, 32);
+            this.manualNext.TabIndex = 65;
+            this.manualNext.Text = "Next";
+            this.manualNext.UseVisualStyleBackColor = true;
+            this.manualNext.Click += new System.EventHandler(this.manualNext_Click);
             // 
             // label10
             // 
@@ -321,120 +308,115 @@
             this.label10.Size = new System.Drawing.Size(63, 13);
             this.label10.TabIndex = 62;
             this.label10.Text = "sec/interval";
-            this.label10.Click += new System.EventHandler(this.label10_Click_1);
             // 
-            // numericUpDown2
+            // secIntervalNumeric
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(25, 118);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(49, 20);
-            this.numericUpDown2.TabIndex = 61;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(25, 91);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(49, 20);
-            this.numericUpDown1.TabIndex = 60;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.secIntervalNumeric.Location = new System.Drawing.Point(25, 91);
+            this.secIntervalNumeric.Name = "secIntervalNumeric";
+            this.secIntervalNumeric.Size = new System.Drawing.Size(49, 20);
+            this.secIntervalNumeric.TabIndex = 60;
+            this.secIntervalNumeric.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // radioButton3
+            // timeIntervalRadioButton
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(12, 65);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(133, 17);
-            this.radioButton3.TabIndex = 59;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Specified time intervals";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.timeIntervalRadioButton.AutoSize = true;
+            this.timeIntervalRadioButton.Location = new System.Drawing.Point(12, 65);
+            this.timeIntervalRadioButton.Name = "timeIntervalRadioButton";
+            this.timeIntervalRadioButton.Size = new System.Drawing.Size(133, 17);
+            this.timeIntervalRadioButton.TabIndex = 59;
+            this.timeIntervalRadioButton.TabStop = true;
+            this.timeIntervalRadioButton.Text = "Specified time intervals";
+            this.timeIntervalRadioButton.UseVisualStyleBackColor = true;
+            this.timeIntervalRadioButton.CheckedChanged += new System.EventHandler(this.TimeIntervalRadioButton_CheckedChanged);
             // 
-            // radioButton2
+            // autoRadioButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(12, 42);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(72, 17);
-            this.radioButton2.TabIndex = 58;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Automatic";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.autoRadioButton.AutoSize = true;
+            this.autoRadioButton.Location = new System.Drawing.Point(12, 42);
+            this.autoRadioButton.Name = "autoRadioButton";
+            this.autoRadioButton.Size = new System.Drawing.Size(72, 17);
+            this.autoRadioButton.TabIndex = 58;
+            this.autoRadioButton.TabStop = true;
+            this.autoRadioButton.Text = "Automatic";
+            this.autoRadioButton.UseVisualStyleBackColor = true;
+            this.autoRadioButton.CheckedChanged += new System.EventHandler(this.AutoRadioButton_CheckedChanged);
             // 
-            // radioButton1
+            // manualRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(12, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(60, 17);
-            this.radioButton1.TabIndex = 57;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Manual";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.manualRadioButton.AutoSize = true;
+            this.manualRadioButton.Location = new System.Drawing.Point(12, 19);
+            this.manualRadioButton.Name = "manualRadioButton";
+            this.manualRadioButton.Size = new System.Drawing.Size(60, 17);
+            this.manualRadioButton.TabIndex = 57;
+            this.manualRadioButton.TabStop = true;
+            this.manualRadioButton.Text = "Manual";
+            this.manualRadioButton.UseVisualStyleBackColor = true;
+            this.manualRadioButton.CheckedChanged += new System.EventHandler(this.ManualRadioButton_CheckedChanged);
             // 
-            // button6
+            // stopRecord
             // 
-            this.button6.Location = new System.Drawing.Point(392, 51);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(73, 32);
-            this.button6.TabIndex = 56;
-            this.button6.Text = "Stop";
-            this.button6.UseVisualStyleBackColor = true;
+            this.stopRecord.Location = new System.Drawing.Point(392, 51);
+            this.stopRecord.Name = "stopRecord";
+            this.stopRecord.Size = new System.Drawing.Size(73, 32);
+            this.stopRecord.TabIndex = 56;
+            this.stopRecord.Text = "Stop";
+            this.stopRecord.UseVisualStyleBackColor = true;
+            this.stopRecord.Click += new System.EventHandler(this.StopRecord_Click);
             // 
-            // button5
+            // startRecord
             // 
-            this.button5.Location = new System.Drawing.Point(392, 13);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(73, 32);
-            this.button5.TabIndex = 55;
-            this.button5.Text = "Start";
-            this.button5.UseVisualStyleBackColor = true;
+            this.startRecord.Location = new System.Drawing.Point(392, 13);
+            this.startRecord.Name = "startRecord";
+            this.startRecord.Size = new System.Drawing.Size(73, 32);
+            this.startRecord.TabIndex = 55;
+            this.startRecord.Text = "Start";
+            this.startRecord.UseVisualStyleBackColor = true;
+            this.startRecord.Click += new System.EventHandler(this.StartRecord_Click);
             // 
-            // button7
+            // stopMeasurement
             // 
-            this.button7.Location = new System.Drawing.Point(398, 54);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(73, 32);
-            this.button7.TabIndex = 58;
-            this.button7.Text = "Stop";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.stopMeasurement.Location = new System.Drawing.Point(398, 54);
+            this.stopMeasurement.Name = "stopMeasurement";
+            this.stopMeasurement.Size = new System.Drawing.Size(73, 32);
+            this.stopMeasurement.TabIndex = 58;
+            this.stopMeasurement.Text = "Stop";
+            this.stopMeasurement.UseVisualStyleBackColor = true;
+            this.stopMeasurement.Click += new System.EventHandler(this.StopMeasurement_Click);
             // 
-            // button8
+            // startMeasurement
             // 
-            this.button8.Location = new System.Drawing.Point(398, 16);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(73, 32);
-            this.button8.TabIndex = 57;
-            this.button8.Text = "Start";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.startMeasurement.Location = new System.Drawing.Point(398, 16);
+            this.startMeasurement.Name = "startMeasurement";
+            this.startMeasurement.Size = new System.Drawing.Size(73, 32);
+            this.startMeasurement.TabIndex = 57;
+            this.startMeasurement.Text = "Start";
+            this.startMeasurement.UseVisualStyleBackColor = true;
+            this.startMeasurement.Click += new System.EventHandler(this.StartMeasurement_Click);
             // 
-            // label9
+            // voltage_measurement
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label9.Location = new System.Drawing.Point(145, 60);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(53, 26);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "-.----";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
+            this.voltage_measurement.AutoSize = true;
+            this.voltage_measurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            this.voltage_measurement.Location = new System.Drawing.Point(145, 60);
+            this.voltage_measurement.Name = "voltage_measurement";
+            this.voltage_measurement.Size = new System.Drawing.Size(78, 26);
+            this.voltage_measurement.TabIndex = 3;
+            this.voltage_measurement.Text = "_.____";
             // 
-            // label8
+            // resistance_measurement
             // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.SystemColors.Control;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label8.Location = new System.Drawing.Point(145, 22);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 26);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "-.----";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.resistance_measurement.AutoSize = true;
+            this.resistance_measurement.BackColor = System.Drawing.SystemColors.Control;
+            this.resistance_measurement.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            this.resistance_measurement.Location = new System.Drawing.Point(145, 22);
+            this.resistance_measurement.Name = "resistance_measurement";
+            this.resistance_measurement.Size = new System.Drawing.Size(78, 26);
+            this.resistance_measurement.TabIndex = 2;
+            this.resistance_measurement.Text = "_.____";
             // 
             // label7
             // 
@@ -455,21 +437,20 @@
             this.resistanceLabel.Size = new System.Drawing.Size(120, 26);
             this.resistanceLabel.TabIndex = 0;
             this.resistanceLabel.Text = "Resistance";
-            this.resistanceLabel.Click += new System.EventHandler(this.label3_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.Label6);
-            this.groupBox3.Controls.Add(this.TextBox4);
+            this.groupBox3.Controls.Add(this.timeoutTextbox);
             this.groupBox3.Controls.Add(this.Label5);
             this.groupBox3.Controls.Add(this.Label4);
-            this.groupBox3.Controls.Add(this.Button4);
-            this.groupBox3.Controls.Add(this.Button3);
-            this.groupBox3.Controls.Add(this.TextBox5);
-            this.groupBox3.Controls.Add(this.TextBox3);
-            this.groupBox3.Location = new System.Drawing.Point(12, 364);
+            this.groupBox3.Controls.Add(this.clear);
+            this.groupBox3.Controls.Add(this.transmitAndRecieve);
+            this.groupBox3.Controls.Add(this.consoleTextbox);
+            this.groupBox3.Controls.Add(this.commandTextbox);
+            this.groupBox3.Location = new System.Drawing.Point(12, 440);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(483, 280);
+            this.groupBox3.Size = new System.Drawing.Size(483, 267);
             this.groupBox3.TabIndex = 60;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Commands";
@@ -480,24 +461,35 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // manualRecordTimer
+            // 
+            this.manualRecordTimer.Tick += new System.EventHandler(this.ManualRecordTimer_Tick);
+            // 
+            // autoRecordTimer
+            // 
+            this.autoRecordTimer.Tick += new System.EventHandler(this.AutoRecordTimer_Tick);
+            // 
+            // intervalRecordTimer
+            // 
+            this.intervalRecordTimer.Tick += new System.EventHandler(this.IntervalRecordTimer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(507, 655);
+            this.ClientSize = new System.Drawing.Size(507, 719);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "HIOKI Battery Hi-Tester";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.secIntervalNumeric)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -506,44 +498,46 @@
 
         #endregion
         internal System.Windows.Forms.Label Label6;
-        internal System.Windows.Forms.TextBox TextBox4;
+        internal System.Windows.Forms.TextBox timeoutTextbox;
         internal System.Windows.Forms.Label Label5;
-        internal System.Windows.Forms.TextBox TextBox2;
+        internal System.Windows.Forms.TextBox portTextbox;
         internal System.Windows.Forms.Label Label4;
-        internal System.Windows.Forms.Button Button4;
+        internal System.Windows.Forms.Button clear;
         internal System.Windows.Forms.Label Label2;
-        internal System.Windows.Forms.Button Button3;
-        internal System.Windows.Forms.Button Button2;
-        internal System.Windows.Forms.Button Button1;
+        internal System.Windows.Forms.Button transmitAndRecieve;
+        internal System.Windows.Forms.Button disconnect;
+        internal System.Windows.Forms.Button connect;
         internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.TextBox TextBox5;
-        internal System.Windows.Forms.TextBox TextBox3;
-        internal System.Windows.Forms.TextBox TextBox1;
+        internal System.Windows.Forms.TextBox consoleTextbox;
+        internal System.Windows.Forms.TextBox commandTextbox;
+        internal System.Windows.Forms.TextBox ipTextbox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label resistanceLabel;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        internal System.Windows.Forms.Button button6;
-        internal System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label voltage_measurement;
+        private System.Windows.Forms.Label resistance_measurement;
+        internal System.Windows.Forms.Button stopRecord;
+        internal System.Windows.Forms.Button startRecord;
         private System.Windows.Forms.ImageList imageList1;
-        internal System.Windows.Forms.Button button7;
-        internal System.Windows.Forms.Button button8;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Label label11;
+        internal System.Windows.Forms.Button stopMeasurement;
+        internal System.Windows.Forms.Button startMeasurement;
+        private System.Windows.Forms.RadioButton timeIntervalRadioButton;
+        private System.Windows.Forms.RadioButton autoRadioButton;
+        private System.Windows.Forms.RadioButton manualRadioButton;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        internal System.Windows.Forms.Button button9;
+        private System.Windows.Forms.NumericUpDown secIntervalNumeric;
+        internal System.Windows.Forms.Button manualNext;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Timer fetchTimer;
+        private System.Windows.Forms.Timer manualRecordTimer;
+        private System.Windows.Forms.Timer autoRecordTimer;
+        private System.Windows.Forms.Timer intervalRecordTimer;
+        internal System.Windows.Forms.TextBox recordLog;
+        internal System.Windows.Forms.Button clearRecord;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
