@@ -269,7 +269,7 @@
             this.clearRecord.TabIndex = 58;
             this.clearRecord.Text = "Clear";
             this.clearRecord.UseVisualStyleBackColor = true;
-            this.clearRecord.Click += new System.EventHandler(this.clearRecord_Click);
+            this.clearRecord.Click += new System.EventHandler(this.ClearRecord_Click);
             // 
             // recordLog
             // 
@@ -298,7 +298,7 @@
             this.manualNext.TabIndex = 65;
             this.manualNext.Text = "Next";
             this.manualNext.UseVisualStyleBackColor = true;
-            this.manualNext.Click += new System.EventHandler(this.manualNext_Click);
+            this.manualNext.Click += new System.EventHandler(this.ManualNext_Click);
             // 
             // label10
             // 

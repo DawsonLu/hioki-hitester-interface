@@ -1,6 +1,6 @@
 ﻿//*******************************************************************************
 //System requirements (software)
-//  Microsoft Visual Studio Professional 2017
+//  Microsoft Visual Studio Professional 2022
 //  Microsoft.NET Framework 4.7
 //
 //This program interfaces with the HIOKI Battery Hi-Tester and allows the user 
@@ -10,12 +10,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
@@ -315,12 +310,12 @@ namespace Interface
 
             if (resistance >= NoMeasurementThreshold)
             {
-                resStr = "No Measurement";
+                resStr = "Max";
             }
 
             if (voltage >= NoMeasurementThreshold)
             {
-                volStr = "No Measurement";
+                volStr = "Max";
             }
 
             resistance_measurement.Invoke(new Action(() => resistance_measurement.Text = resStr));
@@ -402,13 +397,13 @@ namespace Interface
         }
 
         // Event when "Clear" record is clicked
-        private void clearRecord_Click(object sender, EventArgs e)
+        private void ClearRecord_Click(object sender, EventArgs e)
         {
             recordLog.Clear();
         }
 
         // Event when "Next" is clicked for manual recording
-        private void manualNext_Click(object sender, EventArgs e)
+        private void ManualNext_Click(object sender, EventArgs e)
         {
             measurements.Add(new Measurement(counter, prevVoltage, prevResistance));
             recordLog.AppendText($"\r\nNew Measurement No. {++counter}\r\n");
